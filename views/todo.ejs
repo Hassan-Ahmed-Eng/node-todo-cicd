@@ -1,111 +1,169 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>Todo List APP test</title>
+        <title>Hassan's GitOps Production Environment</title>
         <style>
             body {
-                font-family: Arial, sans-serif;
-                background-color: #f4f4f4;
-                color: #333;
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                background-color: #0f172a;
+                color: #f8fafc;
                 margin: 0;
-                padding: 0;
+                padding: 40px 20px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .container {
+                max-width: 700px;
+                width: 100%;
+                background: #1e293b;
+                padding: 30px;
+                border-radius: 12px;
+                box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.3);
+                border: 1px solid #334155;
             }
 
             h1 {
-                background-color: #4CAF50;
-                color: white;
-                margin: 0;
-                padding: 20px;
+                color: #38bdf8;
+                margin-top: 0;
+                margin-bottom: 5px;
                 text-align: center;
+                font-size: 24px;
+                font-weight: 600;
+            }
+
+            .subtitle {
+                text-align: center;
+                color: #94a3b8;
+                font-size: 14px;
+                margin-bottom: 30px;
+                text-transform: uppercase;
+                letter-spacing: 1px;
             }
 
             ul {
                 list-style: none;
                 padding: 0;
+                margin: 0 0 25px 0;
             }
 
             ul li {
-                background: #fff;
-                border: 1px solid #ddd;
-                margin-bottom: 10px;
-                padding: 10px;
+                background: #0f172a;
+                border: 1px solid #334155;
+                margin-bottom: 12px;
+                padding: 14px 18px;
+                border-radius: 8px;
                 position: relative;
+                font-size: 15px;
+                color: #e2e8f0;
+                display: flex;
+                align-items: center;
             }
 
             ul li a {
-                color: #333;
                 text-decoration: none;
                 font-weight: bold;
-            }
-
-            ul li a:hover {
-                color: #4CAF50;
+                transition: color 0.2s ease;
             }
 
             .delete-btn {
-                color: red;
+                color: #ef4444;
                 position: absolute;
-                right: 10px;
-                top: 10px;
+                right: 15px;
+                font-size: 16px;
+            }
+
+            .delete-btn:hover {
+                color: #f87171;
             }
 
             .edit-btn {
-                color: #FFC107;
+                color: #38bdf8;
                 position: absolute;
-                right: 40px;
-                top: 10px;
+                right: 45px;
+                font-size: 16px;
+            }
+
+            .edit-btn:hover {
+                color: #7dd3fc;
             }
 
             form {
-                background: #fff;
+                background: #0f172a;
                 padding: 20px;
-                margin-top: 20px;
+                border-radius: 8px;
+                border: 1px solid #334155;
             }
 
             label {
                 display: block;
                 margin-bottom: 10px;
+                color: #94a3b8;
+                font-size: 14px;
+                font-weight: 500;
+            }
+
+            .input-group {
+                display: flex;
+                gap: 10px;
             }
 
             input[type="text"] {
-                width: 100%;
-                padding: 10px;
-                margin-bottom: 10px;
-                border: 1px solid #ddd;
+                flex: 1;
+                background: #1e293b;
+                border: 1px solid #334155;
+                padding: 12px;
+                border-radius: 6px;
+                color: #f8fafc;
+                font-size: 14px;
+                outline: none;
+            }
+
+            input[type="text"]:focus {
+                border-color: #38bdf8;
             }
 
             input[type="submit"] {
-                background-color: #4CAF50;
-                color: white;
+                background-color: #38bdf8;
+                color: #0f172a;
                 border: none;
-                padding: 10px 20px;
+                padding: 12px 24px;
+                border-radius: 6px;
                 cursor: pointer;
+                font-weight: 600;
+                font-size: 14px;
+                transition: background-color 0.2s ease;
             }
 
             input[type="submit"]:hover {
-                background-color: #45a049;
+                background-color: #7dd3fc;
             }
         </style>
     </head>
 
     <body>
-        <h1>Hello Junoon Batch 8 (Jenkins), Write your plan on Learning Jenkins</h1>
-        <ul>
-            <% todolist.forEach(function(todo, index) { %>
-            <li>
-                <a href="/todo/delete/<%= index %>" class="delete-btn">✘</a>
-                <a href="/todo/<%= index %>" class="edit-btn">✎</a>
-                <%- todo %>
-            </li>
-            <% }); %>
-        </ul>
+        <div class="container">
+            <h1>Hassan Ahmed | GitOps & Production Task Hub</h1>
+            <div class="subtitle">Deployed via ArgoCD on AWS EKS Cluster</div>
+            
+            <ul>
+                <% todolist.forEach(function(todo, index) { %>
+                <li>
+                    <%- todo %>
+                    <a href="/todo/<%= index %>" class="edit-btn">✎</a>
+                    <a href="/todo/delete/<%= index %>" class="delete-btn">✘</a>
+                </li>
+                <% }); %>
+            </ul>
 
-        <form action="/todo/add/" method="post">
-            <p>
-                <label for="newtodo">What should I do?</label>
-                <input type="text" name="newtodo" id="newtodo" autofocus />
-                <input type="submit" value="Add" />
-            </p>
-        </form>
+            <form action="/todo/add/" method="post">
+                <label for="newtodo">Add Deployment Task / Action Item</label>
+                <div class="input-group">
+                    <input type="text" name="newtodo" id="newtodo" placeholder="e.g., Monitor cluster metrics..." autofocus required />
+                    <input type="submit" value="Deploy Task" />
+                </div>
+            </form>
+        </div>
     </body>
 </html>
