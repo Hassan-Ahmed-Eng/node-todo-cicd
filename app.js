@@ -5,21 +5,25 @@ const express = require('express'),
     // Mitigate XSS using sanitizer
     sanitizer = require('sanitizer'),
     app = express(),
-    port = 8000
+    port = 8000;
+
+// EJS Configuration
+app.set('view engine', 'ejs');
+app.set('views', __dirname + '/views');
 
 app.use(bodyParser.urlencoded({
     extended: false
 }));
-// https: //github.com/expressjs/method-override#custom-logic
+
+// https://github.com/expressjs/method-override#custom-logic
 app.use(methodOverride(function (req, res) {
     if (req.body && typeof req.body === 'object' && '_method' in req.body) {
         // look in urlencoded POST bodies and delete it
         let method = req.body._method;
         delete req.body._method;
-        return method
+        return method;
     }
 }));
-
 
 let todolist = [];
 
@@ -75,6 +79,7 @@ app.get('/todo', function (req, res) {
         }
         res.redirect('/todo');
     })
+    
     /* Redirects to the to do list if the page requested is not found */
     .use(function (req, res, next) {
         res.redirect('/todo');
@@ -82,7 +87,8 @@ app.get('/todo', function (req, res) {
 
     .listen(port, function () {
         // Logging to console
-        console.log(`Todolist running on http://0.0.0.0:${port}`)
+        console.log(`Todolist running on http://0.0.0.0:${port}`);
     });
+
 // Export app
 module.exports = app;
